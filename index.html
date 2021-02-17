@@ -290,6 +290,31 @@
 			</li>
         </ul>
     </section>
+	
+	
+    <section id="backup" class="slide" inlist="" rel="schema:hasPart" resource="#backup">
+       <center><h2 property="schema:name" style="margin-top: 140px">Backup Slides</h2></center>
+    </section>
+	
+    <section id="status-content-policies" class="slide" inlist="" rel="schema:hasPart" resource="#status-content-policies">
+        <h2 property="schema:name">🤝 Content Policies: Example</h2>
+		<strong>SCL: Subweb Constraint Language</strong>
+        <pre style="font-size: 0.8em">FOLLOW (?friend WITH POLICIES) {
+  &lt;https://alice.pods.org/profile#me&gt; foaf:knows ?friend.
+} INCLUDE {
+  ?friend ?p ?o.
+}</pre>
+		<ol>
+			<li>Identifies what links to <code>FOLLOW</code></li>
+			<li>Identifies what triples to <code>INCLUDE</code> from followed documents</li>
+		</ol>
+		<p>
+			Carol's data:
+			<pre style="font-size: 0.8em">✅ &lt;https://carol.org/#me> foaf:name "Carol" .
+✅ &lt;https://carol.org/#me&gt; foaf:knows &lt;https://alice.pods.org/profile#me> .
+❌ &lt;https://bob.pods.org/profile#me&gt; foaf:name "Not Bob" .</pre>
+		</p>
+    </section>
 
     <footer>
       <p class="license">
