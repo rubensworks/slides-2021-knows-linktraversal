@@ -40,41 +40,228 @@
       <p class="affiliation"><a href="http://idlab.technology/">Ghent University – imec – IDLab, Belgium</a></p>
     </section>
 
-    <section id="start" class="slide" style="background-image: url('img/TODO.jpg')" inlist="" rel="schema:hasPart" resource="#start">
-        <h2 property="schema:name" class="big" style="margin-top: 20px; color: white; text-shadow: 2px 2px black">INTRO</h2>
-        <ul style="color: white; text-shadow: 2px 2px black; font-size: 1.3em">
-            <li>TODO</li>
+    <section id="start" class="slide" inlist="" rel="schema:hasPart" resource="#start">
+        <h2 property="schema:name" style="margin-top: 20px">What is Link Traversal Query Processing?</h2>
+        <ul>
+			<li class="next">
+            	<h3>Traditional query execution: index-based</h3>
+  				<span class="indent">For example: SPARQL query execution over the DBpedia SPARQL endpoint.</span>
+				<br />
+				<span class="indent">➖ Indexing phase can be expensive.</span>
+				<br />
+				<span class="indent">➕ Once index is built, queries are mostly fast.</span>
+				<br />
+				<span class="indent">➖ Combining with data outside of the index is harder.</span>
+				<br />
+				<span class="indent">➖ Index can become stale.</span>
+			</li>
+			<li class="next">
+            	<h3>Link traversal query processing (LTQP): explorative</h3>
+  				<span class="indent">Based on the follow-your-nose principle of Linked Data.</span>
+				<br />
+				<span class="indent">➕ Implicit combinations of different sources.</span>
+				<br />
+				<span class="indent">➕ Query execution always happens over live data.</span>
+				<br />
+				<span class="indent">➖ Querying is mostly slower.</span>
+				<br />
+				<span class="indent">➖ Harder to achieve (and define) completeness.</span>
+			</li>
         </ul>
+    </section>
+	
+    <section id="example" class="slide" inlist="" rel="schema:hasPart" resource="#start">
+        <h2 property="schema:name">Finding the names of my friends</h2>
+        <pre>SELECT ?name WHERE {
+    &lt;https://www.rubensworks.net/#me&gt; foaf:knows ?person.
+    ?person foaf:name ?name.
+}</pre>
+		<ol>
+			<li>
+				Determine seed URLs: <code>https://www.rubensworks.net/#me</code> if query-driven
+				<br \>
+				&rarr; Add to link queue
+			</li>
+			<li>Repeat until link queue is empty
+				<ol>
+					<li>Pop head URL in queue, and dereference</li>
+					<li>Add all discovered URLs to queue</li>
+				</ol>
+			</li>
+			<li>Execute query over all discovered RDF triples</li>
+		</ol>
+		<strong><a href="https://data.rubensworks.net/tmp/comunica-traversal/#transientDatasources=https%3A%2F%2Fwww.rubensworks.net%2F&query=SELECT%20DISTINCT%20*%20WHERE%20%7B%0A%20%20%20%20%3Chttps%3A%2F%2Fwww.rubensworks.net%2F%23me%3E%20foaf%3Aknows%20%3Fperson.%0A%20%20%20%20%3Fperson%20foaf%3Aname%20%3Fname.%0A%7D">Live example</a></strong>
     </section>
 	
     <section id="index" class="slide index" inlist="" rel="schema:hasPart" resource="#index">
       <ul>
-        <li><a href="#index-a">TODO</a></li>
-		<li><a href="#index-b">TODO</a></li>
-      </ul>
-    </section>
-    
-    <section id="index-a" class="slide index" inlist="" rel="schema:hasPart" resource="#index-a">
-      <ul>
-        <li class="current"><a href="#index-a">TODO</a></li>
-		<li><a href="#index-b">TODO</a></li>
+        <li><a href="#index-existing">Existing approaches</a></li>
+		<li><a href="#index-next">Next steps</a></li>
       </ul>
     </section>
 	
-    <section id="some-slide" class="slide" inlist="" rel="schema:hasPart" resource="#some-slide">
-      <h2 property="schema:name">TODO: A regular slide</h2>
+    <section id="index-existing" class="slide index" inlist="" rel="schema:hasPart" resource="#index-existing">
       <ul>
-          <li>
-          	  <h3>A</h3>
-			  <span class="indent">TODO: Description</span>
-          </li>
-          <li>B</li>
-          <li>C</li>
+        <li class="current"><a href="#index-existing">Existing approaches</a></li>
+		<li><a href="#index-next">Next steps</a></li>
       </ul>
     </section>
 	
-    <section id="conclusion" class="slide" inlist="" rel="schema:hasPart" resource="#conclusion">
-      <h2 property="schema:name" class="big">TODO: Conclusion</h2>
+    <section id="history" class="slide" inlist="" rel="schema:hasPart" resource="#history">
+        <h2 property="schema:name">🕰️ Brief History of LTQP</h2>
+		<span>Pioneered by Olaf Hartig<span>
+        <ul>
+			<li>
+            	<h3>Executing SPARQL queries over the web of linked data. (ISWC 2009)</h3>
+  				<span class="indent">Introduction of the LTQP concept</span>
+				<br />
+				<span class="indent">A non-blocking iterator-based pipeline for querying</span>
+			</li>
+			<li>
+            	<h3>Zero-Knowledge Query Planning for an Iterator Implementation of Link Traversal Based Query Execution. (ESWC 2011)</h3>
+  				<span class="indent">Formalization of LTQP</span>
+				<br />
+				<span class="indent">Query plan selection rules</span>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="history2" class="slide" inlist="" rel="schema:hasPart" resource="#history2">
+        <h2 property="schema:name">🕰️ Brief History of LTQP (2)</h2>
+        <ul>
+			<li>
+            	<h3>Foundations of Traversal Based Query Execution over Linked Data. (HT 2011)</h3>
+  				<span class="indent">More formalizations</span>
+				<br />
+				<span class="indent">Reachability semantics: what links should be followed</span>
+			</li>
+			<li>
+            	<h3>LDQL: A query language for the Web of Linked Data. (JWS 2016)</h3>
+  				<span class="indent">Query language with ability to express navigation paths</span>
+			</li>
+			<li>
+            	<h3>Walking without a Map: Optimizing Response Times of Traversal-Based Linked Data Queries. (ISWC 2016)</h3>
+  				<span class="indent">Prioritize certain URLs to achieve most relevant results faster</span>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="openproblems" class="slide" inlist="" rel="schema:hasPart" resource="#openproblems">
+        <h2 property="schema:name">🧐 Open Problems with LTQP</h2>
+        <ul>
+			<li>
+            	<h3>Slow query execution compared to index-based</h3>
+  				<span class="indent">Mainly caused by number of lookups</span>
+			</li>
+			<li>
+            	<h3>No guarantee of termination</h3>
+  				<span class="indent">Web is unbounded</span>
+			</li>
+			<li>
+            	<h3>No guarantee of completeness</h3>
+  				<span class="indent">No links may exist between source and target</span>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="index-next" class="slide index" inlist="" rel="schema:hasPart" resource="#index-next">
+      <ul>
+        <li><a href="#index-existing">Existing approaches</a></li>
+		<li class="current"><a href="#index-next">Next steps</a></li>
+      </ul>
+    </section>
+	
+    <section id="contentpolicies" class="slide" inlist="" rel="schema:hasPart" resource="#contentpolicies">
+        <h2 property="schema:name">🤝 Content Policies Reduce Search Space</h2>
+        <ul>
+			<li>
+            	<h3>Reachability semantics: all triples from followed links are considered applicable</h3>
+				<span class="indent"><i>Carol defines an incorrect name for Bob.</i></span>
+			</li>
+			<li>
+            	<h3>Content policies: user-defined "trust" preferences</h3>
+  				<span class="indent">Different people <strong>trust</strong> different sources</span>
+				<br />
+				<span class="indent"><i>Alice queries over her contact information, but only wants to obtain friend-defined names.</i></span>
+			</li>
+			<li>
+            	<h3>Hypothesis: Reduction of search space &rarr; faster querying</h3>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="linkingstructures" class="slide" inlist="" rel="schema:hasPart" resource="#linkingstructures">
+        <h2 property="schema:name">🌲 Exploiting Linking Structure</h2>
+        <ul>
+			<li>
+            	<h3>Document linking structure can be declaratively exposed</h3>
+				<span class="indent"><i>Footprints, Shapetrees, TREE, ...</i></span>
+				<br />
+				<span class="indent">To enable auto-discovery, should be fully self-descriptive</span>
+			</li>
+			<li>
+            	<h3>Query execution can prune to only follow links that would give results</h3>
+				<span class="indent"><i>Alice stores her pictures by year, so querying for pictures in May 2020 only requires looking into one directory.</i></span>
+			</li>
+			<li>
+            	<h3>Hypothesis: More fine-grained linking structures will increase performance</h3>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="hybrid" class="slide" inlist="" rel="schema:hasPart" resource="#hybrid">
+        <h2 property="schema:name">🧬 Hybrid Query Execution</h2>
+        <ul>
+			<li>
+            	<h3>LTQP optimizations will only go so far</h3>
+				<span class="indent">May never be sufficient for performance-critical cases</span>
+			</li>
+			<li>
+            	<h3>A hybrid of link-traversal-based and index-based query processing</h3>
+				<span class="indent">Combines advantages of both approaches</span>
+			</li>
+			<li>
+            	<h3>Hypothesis: At the cost of preprocessing and partially stale data, LTQP can be made faster</h3>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="benchmarking" class="slide" inlist="" rel="schema:hasPart" resource="#benchmarking">
+        <h2 property="schema:name">🏋 How to evaluate and test all of this?</h2>
+        <ul>
+			<li>
+            	<h3>The Web itself is not suited</h3>
+				<span class="indent">Too large and unpredictable to execute reproducible experiments</span>
+			</li>
+			<li>
+            	<h3>Creating a (closed) simulated Web of data</h3>
+				<span class="indent">Based on a social network use case</span>
+				<br />
+				<span class="indent">Different fragmentation strategies for testing different LTQP approaches</span>
+			</li>
+        </ul>
+    </section>
+	
+    <section id="status" class="slide" inlist="" rel="schema:hasPart" resource="#status">
+        <h2 property="schema:name">👨‍💻 Current status</h2>
+        <ul>
+			<li>
+            	<h3>Implementation of existing LTQP strategies</h3>
+				<span class="indent">✅ Separate modules in <a href="https://github.com/comunica/comunica-feature-link-traversal">Comunica</a></span>
+			</li>
+			<li>
+            	<h3>Creation of an LTQP Benchmark</h3>
+				<span class="indent">Based on the well-established <a href="http://ldbcouncil.org/developer/snb">LDBC Social Network Benchmark</a></span>
+				<br />
+				<span class="indent">⏳ Additional <a href="https://github.com/rubensworks/rdf-dataset-fragmenter.js">layer that applies fragmentations</a>: WIP</span>
+			</li>
+			<li>
+            	<h3>Incorporating Content policies</h3>
+				<span class="indent">Experimental implementation in <a href="https://github.com/comunica/comunica-feature-link-traversal/tree/feature/content-policies">Comunica</a></span>
+				<br />
+				<span class="indent">⏳Performance tests: WIP</span>
+			</li>
+        </ul>
     </section>
 
     <footer>
