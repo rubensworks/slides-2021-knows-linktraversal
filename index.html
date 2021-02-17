@@ -40,6 +40,33 @@
       <p class="affiliation"><a href="http://idlab.technology/">Ghent University – imec – IDLab, Belgium</a></p>
     </section>
 
+    <section id="decentralized-world" class="slide" inlist="" rel="schema:hasPart" resource="#decentralized-world">
+        <h2 property="schema:name" style="margin-top: 20px">Assumption: Data is decentralized</h2>
+		<center><img src="img/pods.svg" width="75%" /></center>
+    </section>
+	
+    <section id="how-to-query" class="slide" inlist="" rel="schema:hasPart" resource="#how-to-query">
+        <h2 property="schema:name" style="margin-top: 20px">How to query over this?</h2>
+		<img src="img/pods.svg" width="25%" style="float:right" />
+		<p>Necessary if we want to build applications</p>
+		<ul>
+			<li class="next">
+				<h3>Centralized and query</h3>
+				<span class="indent">Unlikely to happen on global scale</span>
+			</li>
+			<li class="next">
+				<h3>Use smaller indexes, and do federated querying</h3>
+				<span class="indent">Existing techniques scale to ~10 sources &rarr; we may have billions of pods</span>
+			</li>
+			<li class="next">
+				<h3>Query over documents, and follow links</h3>
+				<span class="indent">Just like humans browse the Web</span>
+				<br />
+				<span class="indent"><strong>Link Traversal Query Processing</strong></span>
+			</li>
+		</ul>
+    </section>
+
     <section id="start" class="slide" inlist="" rel="schema:hasPart" resource="#start">
         <h2 property="schema:name" style="margin-top: 20px">What is Link Traversal Query Processing?</h2>
         <ul>
