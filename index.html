@@ -66,6 +66,22 @@
 			</li>
 		</ul>
     </section>
+	
+    <section id="index" class="slide index" inlist="" rel="schema:hasPart" resource="#index">
+      <ul>
+		<li><a href="#index-what">What is LTQP?</a></li>
+        <li><a href="#index-existing">Existing approaches</a></li>
+		<li><a href="#index-next">Next steps</a></li>
+      </ul>
+    </section>
+	
+    <section id="index-what" class="slide index" inlist="" rel="schema:hasPart" resource="#index-existing">
+      <ul>
+        <li class="current"><a href="#index-what">What is LTQP?</a></li>
+		<li><a href="#index-existing">Existing approaches</a></li>
+		<li><a href="#index-next">Next steps</a></li>
+      </ul>
+    </section>
 
     <section id="start" class="slide" inlist="" rel="schema:hasPart" resource="#start">
         <h2 property="schema:name" style="margin-top: 20px">What is LTQP?</h2>
@@ -103,6 +119,11 @@
     &lt;https://www.rubensworks.net/#me&gt; foaf:knows ?person.
     ?person foaf:name ?name.
 }</pre>
+		<strong><a href="https://data.rubensworks.net/tmp/comunica-traversal/#transientDatasources=https%3A%2F%2Fwww.rubensworks.net%2F&query=SELECT%20DISTINCT%20*%20WHERE%20%7B%0A%20%20%20%20%3Chttps%3A%2F%2Fwww.rubensworks.net%2F%23me%3E%20foaf%3Aknows%20%3Fperson.%0A%20%20%20%20%3Fperson%20foaf%3Aname%20%3Fname.%0A%7D">Live example</a></strong>
+    </section>
+	
+    <section id="link-traversal-process" class="slide" inlist="" rel="schema:hasPart" resource="#link-traversal-process">
+        <h2 property="schema:name">The Link Traversal Query Process</h2>
 		<ol>
 			<li>
 				Determine seed URLs: <code>https://www.rubensworks.net/#me</code> if query-driven
@@ -117,18 +138,11 @@
 			</li>
 			<li>Execute query over all discovered RDF triples</li>
 		</ol>
-		<strong><a href="https://data.rubensworks.net/tmp/comunica-traversal/#transientDatasources=https%3A%2F%2Fwww.rubensworks.net%2F&query=SELECT%20DISTINCT%20*%20WHERE%20%7B%0A%20%20%20%20%3Chttps%3A%2F%2Fwww.rubensworks.net%2F%23me%3E%20foaf%3Aknows%20%3Fperson.%0A%20%20%20%20%3Fperson%20foaf%3Aname%20%3Fname.%0A%7D">Live example</a></strong>
-    </section>
-	
-    <section id="index" class="slide index" inlist="" rel="schema:hasPart" resource="#index">
-      <ul>
-        <li><a href="#index-existing">Existing approaches</a></li>
-		<li><a href="#index-next">Next steps</a></li>
-      </ul>
     </section>
 	
     <section id="index-existing" class="slide index" inlist="" rel="schema:hasPart" resource="#index-existing">
       <ul>
+		<li><a href="#index-what">What is LTQP?</a></li>
         <li class="current"><a href="#index-existing">Existing approaches</a></li>
 		<li><a href="#index-next">Next steps</a></li>
       </ul>
@@ -193,13 +207,14 @@
 	
     <section id="index-next" class="slide index" inlist="" rel="schema:hasPart" resource="#index-next">
       <ul>
+		<li><a href="#index-what">What is LTQP?</a></li>
         <li><a href="#index-existing">Existing approaches</a></li>
 		<li class="current"><a href="#index-next">Next steps</a></li>
       </ul>
     </section>
 	
     <section id="contentpolicies" class="slide" inlist="" rel="schema:hasPart" resource="#contentpolicies">
-        <h2 property="schema:name">🤝 Content Policies Reduce Search Space</h2>
+        <h2 property="schema:name">🤝 Content Policies Define Trust Scopes</h2>
         <ul>
 			<li>
             	<h3>Reachability semantics: all triples from followed links are considered applicable</h3>
@@ -212,13 +227,17 @@
 				<span class="indent"><i>Alice queries over her contact information, but only wants to obtain friend-defined names.</i></span>
 			</li>
 			<li>
-            	<h3>Hypothesis: Reduction of search space &rarr; faster querying</h3>
+            	<h3>Hypothesis 1: Content policies do not slow down querying</h3>
+			</li>
+			<li>
+            	<h3>Hypothesis 2: Reduction of search space &rarr; faster querying</h3>
 			</li>
         </ul>
     </section>
 	
     <section id="linkingstructures" class="slide" inlist="" rel="schema:hasPart" resource="#linkingstructures">
         <h2 property="schema:name">🌲 Exploiting Linking Structure</h2>
+		<span class="indent"><i>Alice stores her pictures by year.</i></span>
         <ul>
 			<li>
             	<h3>Document linking structure can be declaratively exposed</h3>
@@ -227,8 +246,10 @@
 				<span class="indent">To enable auto-discovery, should be fully self-descriptive</span>
 			</li>
 			<li>
-            	<h3>Query execution can prune to only follow links that would give results</h3>
-				<span class="indent"><i>Alice stores her pictures by year, so querying for pictures in May 2020 only requires looking into one directory.</i></span>
+            	<h3>Query execution can prune away links that would not give results</h3>
+				<span class="indent"><i>Querying for pictures in May 2020 enables us to prune all other years.</i></span>
+				<br />
+				<span class="indent">Important nuance: due to the open-world assumption, only <em>pruning</em> is possible, not <em>selecting</em>.</span>
 			</li>
 			<li>
             	<h3>Hypothesis: More fine-grained linking structures will increase performance</h3>
