@@ -82,9 +82,36 @@
 		<li><a href="#index-next">Next steps</a></li>
       </ul>
     </section>
-
-    <section id="start" class="slide" inlist="" rel="schema:hasPart" resource="#start">
-        <h2 property="schema:name" style="margin-top: 20px">What is LTQP?</h2>
+	
+    <section id="example" class="slide" inlist="" rel="schema:hasPart" resource="#start">
+        <h2 property="schema:name">Example: Find names of my friends</h2>
+        <pre>SELECT ?name WHERE {
+    &lt;https://www.rubensworks.net/#me&gt; foaf:knows ?person.
+    ?person foaf:name ?name.
+}</pre>
+		<strong><a href="https://data.rubensworks.net/tmp/comunica-traversal/#transientDatasources=https%3A%2F%2Fwww.rubensworks.net%2F&query=SELECT%20DISTINCT%20*%20WHERE%20%7B%0A%20%20%20%20%3Chttps%3A%2F%2Fwww.rubensworks.net%2F%23me%3E%20foaf%3Aknows%20%3Fperson.%0A%20%20%20%20%3Fperson%20foaf%3Aname%20%3Fname.%0A%7D">Live example</a></strong>
+    </section>
+	
+    <section id="link-traversal-process" class="slide" inlist="" rel="schema:hasPart" resource="#link-traversal-process">
+        <h2 property="schema:name">The Link Traversal Query Process</h2>
+		<ol>
+			<li>
+				Determine seed URLs <em>(<code>https://www.rubensworks.net/#me</code> if query-driven)</em>
+				<br \>
+				&rarr; Add to link queue
+			</li>
+			<li>Repeat until link queue is empty
+				<ol>
+					<li>Pop head URL in queue, and dereference</li>
+					<li>Add all discovered URLs to queue</li>
+				</ol>
+			</li>
+			<li>Execute query over all discovered RDF triples</li>
+		</ol>
+    </section>
+	
+    <section id="comparison" class="slide" inlist="" rel="schema:hasPart" resource="#comparison">
+        <h2 property="schema:name" style="margin-top: 20px">Differences LTQP and traditional querying</h2>
         <ul>
 			<li class="next">
             	<h3>Traditional query execution: index-based</h3>
@@ -111,33 +138,6 @@
 				<span class="indent">➖ Harder to achieve (and define) completeness.</span>
 			</li>
         </ul>
-    </section>
-	
-    <section id="example" class="slide" inlist="" rel="schema:hasPart" resource="#start">
-        <h2 property="schema:name">Finding the names of my friends</h2>
-        <pre>SELECT ?name WHERE {
-    &lt;https://www.rubensworks.net/#me&gt; foaf:knows ?person.
-    ?person foaf:name ?name.
-}</pre>
-		<strong><a href="https://data.rubensworks.net/tmp/comunica-traversal/#transientDatasources=https%3A%2F%2Fwww.rubensworks.net%2F&query=SELECT%20DISTINCT%20*%20WHERE%20%7B%0A%20%20%20%20%3Chttps%3A%2F%2Fwww.rubensworks.net%2F%23me%3E%20foaf%3Aknows%20%3Fperson.%0A%20%20%20%20%3Fperson%20foaf%3Aname%20%3Fname.%0A%7D">Live example</a></strong>
-    </section>
-	
-    <section id="link-traversal-process" class="slide" inlist="" rel="schema:hasPart" resource="#link-traversal-process">
-        <h2 property="schema:name">The Link Traversal Query Process</h2>
-		<ol>
-			<li>
-				Determine seed URLs: <code>https://www.rubensworks.net/#me</code> if query-driven
-				<br \>
-				&rarr; Add to link queue
-			</li>
-			<li>Repeat until link queue is empty
-				<ol>
-					<li>Pop head URL in queue, and dereference</li>
-					<li>Add all discovered URLs to queue</li>
-				</ol>
-			</li>
-			<li>Execute query over all discovered RDF triples</li>
-		</ol>
     </section>
 	
     <section id="index-existing" class="slide index" inlist="" rel="schema:hasPart" resource="#index-existing">
